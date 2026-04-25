@@ -25,7 +25,8 @@ does not live in each project's `.devcontainer/devcontainer.json`.
     "ghcr.io/<owner>/devcontainer-features/codex:1": {},
     "ghcr.io/<owner>/devcontainer-features/opencode:1": {},
     "ghcr.io/<owner>/devcontainer-features/cline:1": {},
-    "ghcr.io/<owner>/devcontainer-features/roo-code:1": {}
+    "ghcr.io/<owner>/devcontainer-features/roo-code:1": {},
+    "ghcr.io/<owner>/devcontainer-features/glab:1": {}
   }
 }
 ```
@@ -48,7 +49,7 @@ where Docker can access the host filesystem (Linux, macOS, Windows with Docker D
 
 These directories may contain API keys, OAuth tokens, session files, prompts, task histories, and
 other sensitive data. Since they are stored directly in your host home directory (`~/.claude`,
-`~/.codex`, `~/.config/opencode`, etc.), you can access and edit them directly from the host.
+`~/.codex`, `~/.config/opencode`, `~/.config/glab-cli`, etc.), you can access and edit them directly from the host.
 
 ## Included Features
 
@@ -59,6 +60,7 @@ other sensitive data. Since they are stored directly in your host home directory
 | `opencode` | `opencode-ai` via npm, VS Code extension `sst-dev.opencode` | `~/.config/opencode`, `~/.local/share/opencode` |
 | `cline` | VS Code extension `saoudrizwan.claude-dev` | `~/Documents/Cline`, `~/.cline`, VS Code globalStorage |
 | `roo-code` | VS Code extension `rooveterinaryinc.roo-cline` | `~/.roo`, VS Code globalStorage |
+| `glab` | `glab` CLI from GitLab releases | `~/.config/glab-cli` |
 
 ## Publishing
 
