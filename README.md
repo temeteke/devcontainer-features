@@ -41,13 +41,14 @@ home directory to the mounted paths.
 
 The symlink approach avoids hard-coding `/home/vscode`, `/home/node`, `/home/coder`, or `/root`.
 
-**Platform:** These Features are designed for WSL2 + Docker Desktop environments.
+**Platform:** These Features use `${localEnv:HOME}` for bind mounts, so they work on any platform
+where Docker can access the host filesystem (Linux, macOS, Windows with Docker Desktop, WSL2, etc.).
 
 ## Security note
 
 These directories may contain API keys, OAuth tokens, session files, prompts, task histories, and
 other sensitive data. Since they are stored directly in your host home directory (`~/.claude`,
-`~/.codex`, `~/.config/opencode`, etc.), you can access and edit them directly from WSL.
+`~/.codex`, `~/.config/opencode`, etc.), you can access and edit them directly from the host.
 
 ## Included Features
 
