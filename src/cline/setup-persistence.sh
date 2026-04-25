@@ -70,10 +70,14 @@ case "$PERSIST_MODE" in
   all)
     link_dir "$BASE_DIR/Documents/Cline" "$HOME/Documents/Cline"
     link_dir "$BASE_DIR/cline" "$HOME/.cline"
+    link_dir "$BASE_DIR/globalStorage" "$HOME/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev"
     ;;
   configs)
     link_dir "$BASE_DIR/Documents/Cline" "$HOME/Documents/Cline"
     link_dir "$BASE_DIR/cline" "$HOME/.cline"
+    ;;
+  state)
+    link_dir "$BASE_DIR/globalStorage" "$HOME/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev"
     ;;
   *)
     log "Unsupported persistMode: $PERSIST_MODE"
