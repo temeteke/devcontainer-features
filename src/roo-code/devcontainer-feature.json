@@ -1,0 +1,42 @@
+{
+  "id": "roo-code",
+  "version": "0.1.0",
+  "name": "Roo Code",
+  "description": "Installs the Roo Code VS Code extension and persists its VS Code globalStorage state.",
+  "options": {
+    "install": {
+      "type": "boolean",
+      "default": true,
+      "description": "Kept for consistency. The VS Code extension is added through VS Code customizations."
+    },
+    "persist": {
+      "type": "boolean",
+      "default": true,
+      "description": "Persist configuration/auth/state by linking the tool's expected directory to the host home directory."
+    },
+    "persistMode": {
+      "type": "string",
+      "enum": ["all", "configs", "state"],
+      "default": "all",
+      "description": "all persists both customizations (custom modes, rules) and extension state (settings, history, auth). configs persists only customization files. state persists only extension state."
+    }
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.roo",
+      "target": "/mnt/devcontainer-features/roo-code/roo"
+    },
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.vscode-server/data/User/globalStorage/rooveterinaryinc.roo-cline",
+      "target": "/mnt/devcontainer-features/roo-code/globalStorage"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/roo-code/setup-persistence.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["rooveterinaryinc.roo-cline"]
+    }
+  }
+}

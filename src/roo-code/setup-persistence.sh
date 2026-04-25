@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+FEATURE_ID="roo-code"
+FEATURE_DIR="/usr/local/share/devcontainer-features/${FEATURE_ID}"
+FEATURE_ENV="${FEATURE_DIR}/feature.env"
+if [ -f "${FEATURE_ENV}" ]; then
+  # shellcheck disable=SC1090
+  . "${FEATURE_ENV}"
+fi
+
+PERSIST="${PERSIST:-true}"
+PERSIST_MODE="${PERSIST_MODE:-all}"
+BASE_DIR="/mnt/devcontainer-features/${FEATURE_ID}"
+
+log() {
+  echo "[${FEATURE_ID}] $*"
+}
+
+is_true() {
+  case "${1:-}" in
+    true|True|TRUE|1|yes|YES|y|Y) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+ensure_writable_dir() {
+  local dir="$1"
+  mkdir -p "$dir"
+  if [ ! -w "$dir" ]; then
+    log "Warning: $dir is not writable by $(id -un). Trying to continue."
+  fi
+}
+
+link_dir() {
+  local src="$1"
+  local dst="$2"
+
+  ensure_writable_dir "$src"
+  mkdir -p "$(dirname "$dst")"
+
+  if [ -L "$dst" ]; then
+    local current
+    current="$(readlink "$dst" || true)"
+    if [ "$current" = "$src" ]; then
+      log "Already linked: $dst -> $src"
+      return 0
+    fi
+    rm -f "$dst"
+  fi
+
+  if [ -e "$dst" ]; then
+    log "Migrating existing data from $dst to $src"
+    cp -a "$dst/." "$src/" 2>/dev/null || true
+    rm -rf "$dst"
+  fi
+
+  ln -sfn "$src" "$dst"
+  log "Linked: $dst -> $src"
+}
+
+if ! is_true "$PERSIST"; then
+  log "Persistence disabled."
+  exit 0
+fi
+
+ensure_writable_dir "$BASE_DIR"
+
+case "$PERSIST_MODE" in
+  all)
+    link_dir "$BASE_DIR/roo" "$HOME/.roo"
+    link_dir "$BASE_DIR/globalStorage" "$HOME/.vscode-server/data/User/globalStorage/rooveterinaryinc.roo-cline"
+    ;;
+  configs)
+    link_dir "$BASE_DIR/roo" "$HOME/.roo"
+    ;;
+  state)
+    link_dir "$BASE_DIR/globalStorage" "$HOME/.vscode-server/data/User/globalStorage/rooveterinaryinc.roo-cline"
+    ;;
+  *)
+    log "Unsupported persistMode: $PERSIST_MODE"
+    exit 1
+    ;;
+esac

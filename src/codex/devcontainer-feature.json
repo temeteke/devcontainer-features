@@ -1,0 +1,41 @@
+{
+  "id": "codex",
+  "version": "0.1.0",
+  "name": "OpenAI Codex CLI",
+  "description": "Installs OpenAI Codex CLI, VS Code extension, and persists ~/.codex.",
+  "options": {
+    "install": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install the tool."
+    },
+    "persist": {
+      "type": "boolean",
+      "default": true,
+      "description": "Persist configuration/auth/state by linking the tool's expected directory to the host home directory."
+    },
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "npm package version for @openai/codex. Use latest or a concrete version."
+    }
+  },
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.codex",
+      "target": "/mnt/devcontainer-features/codex"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/codex/setup-persistence.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["openai.chatgpt"]
+    }
+  }
+}

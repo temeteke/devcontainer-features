@@ -1,0 +1,46 @@
+{
+  "id": "opencode",
+  "version": "0.1.0",
+  "name": "OpenCode",
+  "description": "Installs OpenCode CLI, VS Code extension, and persists its config and data directories.",
+  "options": {
+    "install": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install the tool."
+    },
+    "persist": {
+      "type": "boolean",
+      "default": true,
+      "description": "Persist configuration/auth/state by linking the tool's expected directory to the host home directory."
+    },
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "npm package version for opencode-ai."
+    }
+  },
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.config/opencode",
+      "target": "/mnt/devcontainer-features/opencode/config"
+    },
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.local/share/opencode",
+      "target": "/mnt/devcontainer-features/opencode/data"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/opencode/setup-persistence.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["sst-dev.opencode"]
+    }
+  }
+}

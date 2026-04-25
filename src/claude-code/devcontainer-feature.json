@@ -1,0 +1,24 @@
+{
+  "id": "claude-code",
+  "version": "0.1.0",
+  "name": "Claude Code (Persistence)",
+  "description": "Persists Claude Code configuration/auth/state. Requires the official Claude Code Feature for installation.",
+  "options": {
+    "persist": {
+      "type": "boolean",
+      "default": true,
+      "description": "Persist configuration/auth/state by linking the tool's expected directory to the host home directory."
+    }
+  },
+  "dependsOn": {
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.claude",
+      "target": "/mnt/devcontainer-features/claude-code"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/claude-code/setup-persistence.sh"
+}
