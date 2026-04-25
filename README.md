@@ -59,7 +59,7 @@ other sensitive data. Since they are stored directly in your host home directory
 | `claude-code` | via official Feature | `~/.claude` |
 | `codex` | `@openai/codex` via npm, VS Code extension `openai.chatgpt` | `~/.codex` |
 | `opencode` | `opencode-ai` via npm, VS Code extension `sst-dev.opencode` | `~/.config/opencode`, `~/.local/share/opencode` |
-| `cline` | VS Code extension `saoudrizwan.claude-dev` | `~/Documents/Cline`, `~/.cline`, VS Code globalStorage |
+| `cline` | VS Code extension `saoudrizwan.claude-dev` | `~/Documents/Cline`, `~/.cline` |
 | `roo-code` | VS Code extension `rooveterinaryinc.roo-cline` | `~/.roo`, VS Code globalStorage |
 | `glab` | `glab` CLI from GitLab releases | `~/.config/glab-cli` |
 

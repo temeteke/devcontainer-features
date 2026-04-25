@@ -1,6 +1,6 @@
 {
   "id": "cline",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "Cline",
   "description": "Installs the Cline VS Code extension and persists its VS Code globalStorage state.",
   "options": {
@@ -13,12 +13,6 @@
       "type": "boolean",
       "default": true,
       "description": "Persist configuration/auth/state by linking the tool's expected directory to the host home directory."
-    },
-    "persistMode": {
-      "type": "string",
-      "enum": ["all", "configs", "state"],
-      "default": "all",
-      "description": "all persists both customizations (Rules, Skills, Workflows) and extension state (settings, history, auth). configs persists only customization files. state persists only extension state."
     }
   },
   "mounts": [
@@ -31,11 +25,6 @@
       "type": "bind",
       "source": "${localEnv:HOME}/.cline",
       "target": "/mnt/devcontainer-features/cline/cline"
-    },
-    {
-      "type": "bind",
-      "source": "${localEnv:HOME}/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev",
-      "target": "/mnt/devcontainer-features/cline/globalStorage"
     }
   ],
   "postCreateCommand": "/usr/local/share/devcontainer-features/cline/setup-persistence.sh",

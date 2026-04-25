@@ -10,7 +10,6 @@ if [ -f "${FEATURE_ENV}" ]; then
 fi
 
 PERSIST="${PERSIST:-true}"
-PERSIST_MODE="${PERSIST_MODE:-all}"
 BASE_DIR="/mnt/devcontainer-features/${FEATURE_ID}"
 
 log() {
@@ -66,21 +65,5 @@ fi
 
 ensure_writable_dir "$BASE_DIR"
 
-case "$PERSIST_MODE" in
-  all)
-    link_dir "$BASE_DIR/Documents/Cline" "$HOME/Documents/Cline"
-    link_dir "$BASE_DIR/cline" "$HOME/.cline"
-    link_dir "$BASE_DIR/globalStorage" "$HOME/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev"
-    ;;
-  configs)
-    link_dir "$BASE_DIR/Documents/Cline" "$HOME/Documents/Cline"
-    link_dir "$BASE_DIR/cline" "$HOME/.cline"
-    ;;
-  state)
-    link_dir "$BASE_DIR/globalStorage" "$HOME/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev"
-    ;;
-  *)
-    log "Unsupported persistMode: $PERSIST_MODE"
-    exit 1
-    ;;
-esac
+link_dir "$BASE_DIR/Documents/Cline" "$HOME/Documents/Cline"
+link_dir "$BASE_DIR/cline" "$HOME/.cline"
