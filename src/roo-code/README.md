@@ -6,8 +6,12 @@ Installs the Roo Code VS Code extension and persists its VS Code globalStorage d
 
 - `install`: kept for consistency. The VS Code extension is added via `customizations.vscode.extensions`.
 - `persist`: default `true`
-- `persistMode`: `full` or `settings`
+- `persistMode`: `all` (default), `configs`, or `state`
 
 ## Persisted paths
 
-- `~/.vscode-server/data/User/globalStorage/rooveterinaryinc.roo-cline`
+The directories persisted depend on the `persistMode` option:
+
+- **`all`** (default): `~/.roo`, `~/.vscode-server/data/User/globalStorage/rooveterinaryinc.roo-cline`
+- **`configs`**: `~/.roo`
+- **`state`**: `~/.vscode-server/data/User/globalStorage/rooveterinaryinc.roo-cline`

@@ -6,8 +6,7 @@ Installs OpenCode and persists OpenCode config/data directories.
 
 - `install`: default `true`
 - `persist`: default `true`
-- `installMethod`: `script` or `npm`
-- `version`: npm package version when `installMethod=npm`
+- `version`: npm package version, default `latest`
 
 ## Persisted paths
 

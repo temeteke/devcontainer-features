@@ -6,8 +6,12 @@ Installs the Cline VS Code extension and persists its VS Code globalStorage dire
 
 - `install`: kept for consistency. The VS Code extension is added via `customizations.vscode.extensions`.
 - `persist`: default `true`
-- `persistMode`: `full` or `settings`
+- `persistMode`: `all` (default), `configs`, or `state`
 
 ## Persisted paths
 
-- `~/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev`
+The directories persisted depend on the `persistMode` option:
+
+- **`all`** (default): `~/Documents/Cline`, `~/.cline`, `~/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev`
+- **`configs`**: `~/Documents/Cline`, `~/.cline`
+- **`state`**: `~/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev`
