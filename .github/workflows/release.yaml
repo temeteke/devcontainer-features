@@ -2,8 +2,11 @@ name: Release Dev Container Features
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master
+    paths:
+      - 'src/**'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 jobs:
