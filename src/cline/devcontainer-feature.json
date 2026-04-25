@@ -1,6 +1,6 @@
 {
   "id": "cline",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "Cline",
   "description": "Installs the Cline VS Code extension and persists its VS Code globalStorage state.",
   "options": {

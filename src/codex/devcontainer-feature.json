@@ -1,6 +1,6 @@
 {
   "id": "codex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "OpenAI Codex CLI",
   "description": "Installs OpenAI Codex CLI, VS Code extension, and persists ~/.codex.",
   "options": {

@@ -1,6 +1,6 @@
 {
   "id": "roo-code",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "Roo Code",
   "description": "Installs the Roo Code VS Code extension and persists its VS Code globalStorage state.",
   "options": {
