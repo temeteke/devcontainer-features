@@ -16,9 +16,9 @@
     },
     "persistMode": {
       "type": "string",
-      "enum": ["all", "configs", "state"],
+      "enum": ["all", "configs"],
       "default": "all",
-      "description": "all persists both customizations (Rules, Skills, Workflows) and extension state (settings, history, auth). configs persists only customization files. state persists only extension state."
+      "description": "all persists both customizations (Rules, Skills, Workflows) and extension state. configs persists only customization files."
     }
   },
   "mounts": [
@@ -31,11 +31,6 @@
       "type": "bind",
       "source": "${localEnv:HOME}/.cline",
       "target": "/mnt/devcontainer-features/cline/cline"
-    },
-    {
-      "type": "bind",
-      "source": "${localEnv:HOME}/.vscode-server/data/User/globalStorage/saoudrizwan.claude-dev",
-      "target": "/mnt/devcontainer-features/cline/globalStorage"
     }
   ],
   "postCreateCommand": "/usr/local/share/devcontainer-features/cline/setup-persistence.sh",
