@@ -1,6 +1,6 @@
 # devcontainer-features
 
-Personal Dev Container Features for coding agents.
+Personal Dev Container Features for coding agents and developer tools.
 
 This repository is organized as a generic Dev Container Feature collection, not only as an
 agent-specific repository. The initial Features install and persist configuration for:
@@ -10,6 +10,7 @@ agent-specific repository. The initial Features install and persist configuratio
 - OpenCode
 - Cline
 - Roo Code
+- glab
 
 **Claude Code** has an [official Dev Container Feature](https://github.com/anthropics/claude-code). This repository provides a companion Feature that adds persistence on top of the official installation.
 
@@ -71,4 +72,4 @@ workflow is included under `.github/workflows/release.yaml`; adjust the registry
 
 This repository is an unofficial collection of Dev Container Features.
 It is not affiliated with, endorsed by, or maintained by OpenAI, Anthropic,
-Roo Code, Cline, or OpenCode.
+Roo Code, Cline, OpenCode, or GitLab.
