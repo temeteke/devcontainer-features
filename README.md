@@ -5,6 +5,7 @@ Personal Dev Container Features for coding agents.
 This repository is organized as a generic Dev Container Feature collection, not only as an
 agent-specific repository. The initial Features install and persist configuration for:
 
+- Claude Code
 - Codex
 - OpenCode
 - Cline
