@@ -16,23 +16,25 @@ agent-specific repository. The initial Features install and persist configuratio
 
 ## Usage
 
-Publish the Features to GHCR, then add them to your **VS Code User Settings** so the setting
-does not live in each project's `.devcontainer/devcontainer.json`.
+Publish the Features to GHCR first, then paste the following into your **VS Code User Settings**.
+This keeps the setting out of each project's `.devcontainer/devcontainer.json`.
 
 ```json
 {
   "dev.containers.defaultFeatures": {
-    "ghcr.io/<owner>/devcontainer-features/claude-code:1": {},
-    "ghcr.io/<owner>/devcontainer-features/codex:1": {},
-    "ghcr.io/<owner>/devcontainer-features/opencode:1": {},
-    "ghcr.io/<owner>/devcontainer-features/cline:1": {},
-    "ghcr.io/<owner>/devcontainer-features/roo-code:1": {},
-    "ghcr.io/<owner>/devcontainer-features/glab:1": {}
+    "ghcr.io/temeteke/devcontainer-features/claude-code:0": {},
+    "ghcr.io/temeteke/devcontainer-features/codex:0": {},
+    "ghcr.io/temeteke/devcontainer-features/opencode:0": {},
+    "ghcr.io/temeteke/devcontainer-features/cline:0": {},
+    "ghcr.io/temeteke/devcontainer-features/roo-code:0": {},
+    "ghcr.io/temeteke/devcontainer-features/glab:0": {}
   }
 }
 ```
 
 **Claude Code** automatically pulls in the official Feature via `dependsOn`, so only the companion Feature needs to be listed.
+
+This collection is still in `0.x`, so pin the major channel with `:0`. When the collection reaches `1.0`, switch the references to `:1`.
 
 ## Design
 
@@ -66,7 +68,8 @@ other sensitive data. Since they are stored directly in your host home directory
 ## Publishing
 
 This repo is compatible with the Dev Container Feature publishing flow. A minimal GitHub Actions
-workflow is included under `.github/workflows/release.yaml`; adjust the registry owner/repo as needed.
+workflow is included under `.github/workflows/release.yaml`; adjust the registry owner/repo if you
+fork the repository.
 
 ## Disclaimer
 
