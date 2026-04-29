@@ -32,6 +32,7 @@ GLAB_VERSION="${GLAB_VERSION#v}"
 
 TMP_DIR="$(mktemp -d)"
 GLAB_TAG=""
+GLAB_DOWNLOAD_VERSION=""
 
 if [ "$GLAB_VERSION" = "latest" ]; then
   LATEST_RELEASE_JSON="$(curl -fsSL "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/releases/permalink/latest")"
@@ -40,8 +41,10 @@ if [ "$GLAB_VERSION" = "latest" ]; then
     echo "[${FEATURE_ID}] Failed to resolve the latest glab release tag."
     exit 1
   fi
+  GLAB_DOWNLOAD_VERSION="${GLAB_TAG#v}"
 else
   GLAB_TAG="v${GLAB_VERSION}"
+  GLAB_DOWNLOAD_VERSION="${GLAB_VERSION}"
 fi
 
 ARCH="$(dpkg --print-architecture)"
@@ -51,7 +54,7 @@ case "$ARCH" in
   *) echo "[${FEATURE_ID}] Unsupported architecture: $ARCH" && exit 1 ;;
 esac
 
-DOWNLOAD_URL="https://gitlab.com/gitlab-org/cli/-/releases/${GLAB_TAG}/downloads/glab_${GLAB_VERSION}_${GLAB_ARCH}.tar.gz"
+DOWNLOAD_URL="https://gitlab.com/gitlab-org/cli/-/releases/${GLAB_TAG}/downloads/glab_${GLAB_DOWNLOAD_VERSION}_${GLAB_ARCH}.tar.gz"
 
 echo "[${FEATURE_ID}] Downloading ${DOWNLOAD_URL}"
 curl -fsSL -o "$TMP_DIR/glab.tar.gz" "$DOWNLOAD_URL"
