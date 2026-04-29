@@ -28,6 +28,7 @@ if ! is_true "${INSTALL:-true}"; then
 fi
 
 GLAB_VERSION="${VERSION:-latest}"
+GLAB_VERSION="${GLAB_VERSION#v}"
 
 ARCH="$(dpkg --print-architecture)"
 case "$ARCH" in
@@ -37,13 +38,22 @@ case "$ARCH" in
 esac
 
 TMP_DIR="$(mktemp -d)"
+GLAB_TAG=""
 
 if [ "$GLAB_VERSION" = "latest" ]; then
-  DOWNLOAD_URL="https://gitlab.com/gitlab-org/cli/-/releases/latest/downloads/glab_${GLAB_ARCH}.tar.gz"
+  LATEST_RELEASE_JSON="$(curl -fsSL "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/releases/permalink/latest")"
+  GLAB_TAG="$(printf '%s' "$LATEST_RELEASE_JSON" | grep -o '"tag_name":"[^"]*"' | head -n1 | cut -d'"' -f4)"
+  if [ -z "$GLAB_TAG" ]; then
+    echo "[${FEATURE_ID}] Failed to resolve the latest glab release tag."
+    exit 1
+  fi
 else
-  DOWNLOAD_URL="https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/downloads/glab_${GLAB_VERSION}_${GLAB_ARCH}.tar.gz"
+  GLAB_TAG="v${GLAB_VERSION}"
 fi
 
+DOWNLOAD_URL="https://gitlab.com/gitlab-org/cli/-/releases/${GLAB_TAG}/downloads/glab_${GLAB_TAG}_${GLAB_ARCH}.tar.gz"
+
+echo "[${FEATURE_ID}] Downloading ${DOWNLOAD_URL}"
 curl -fsSL -o "$TMP_DIR/glab.tar.gz" "$DOWNLOAD_URL"
 tar -xzf "$TMP_DIR/glab.tar.gz" -C "$TMP_DIR"
 install "$(find "$TMP_DIR" -type f -name glab -print -quit)" /usr/local/bin/glab
