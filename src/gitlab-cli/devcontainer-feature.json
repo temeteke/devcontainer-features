@@ -1,0 +1,31 @@
+{
+  "id": "gitlab-cli",
+  "version": "0.1.3",
+  "name": "gitlab-cli",
+  "description": "Installs the GitLab CLI (`glab`) and persists its configuration directory.",
+  "options": {
+    "install": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install the GitLab CLI."
+    },
+    "persist": {
+      "type": "boolean",
+      "default": true,
+      "description": "Persist GitLab CLI configuration by linking ~/.config/glab-cli to the host home directory."
+    },
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "GitLab CLI version to install (e.g., 1.53.0). Use 'latest' for the most recent release."
+    }
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.config/glab-cli",
+      "target": "/mnt/devcontainer-features/gitlab-cli/config"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/gitlab-cli/setup-persistence.sh"
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-FEATURE_ID="glab"
+FEATURE_ID="gitlab-cli"
 FEATURE_DIR="/usr/local/share/devcontainer-features/${FEATURE_ID}"
 BASE_DIR="/mnt/devcontainer-features/${FEATURE_ID}"
 
