@@ -1,6 +1,6 @@
 {
   "id": "glab",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "glab",
   "description": "Installs the GitLab CLI (glab) and persists its configuration directory.",
   "options": {
