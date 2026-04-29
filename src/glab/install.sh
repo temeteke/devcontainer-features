@@ -30,13 +30,6 @@ fi
 GLAB_VERSION="${VERSION:-latest}"
 GLAB_VERSION="${GLAB_VERSION#v}"
 
-ARCH="$(dpkg --print-architecture)"
-case "$ARCH" in
-  amd64) GLAB_ARCH="linux_amd64" ;;
-  arm64) GLAB_ARCH="linux_arm64" ;;
-  *) echo "[${FEATURE_ID}] Unsupported architecture: $ARCH" && exit 1 ;;
-esac
-
 TMP_DIR="$(mktemp -d)"
 GLAB_TAG=""
 
@@ -51,7 +44,14 @@ else
   GLAB_TAG="v${GLAB_VERSION}"
 fi
 
-DOWNLOAD_URL="https://gitlab.com/gitlab-org/cli/-/releases/${GLAB_TAG}/downloads/glab_${GLAB_TAG}_${GLAB_ARCH}.tar.gz"
+ARCH="$(dpkg --print-architecture)"
+case "$ARCH" in
+  amd64) GLAB_ARCH="linux_amd64" ;;
+  arm64) GLAB_ARCH="linux_arm64" ;;
+  *) echo "[${FEATURE_ID}] Unsupported architecture: $ARCH" && exit 1 ;;
+esac
+
+DOWNLOAD_URL="https://gitlab.com/gitlab-org/cli/-/releases/${GLAB_TAG}/downloads/glab_${GLAB_VERSION}_${GLAB_ARCH}.tar.gz"
 
 echo "[${FEATURE_ID}] Downloading ${DOWNLOAD_URL}"
 curl -fsSL -o "$TMP_DIR/glab.tar.gz" "$DOWNLOAD_URL"
