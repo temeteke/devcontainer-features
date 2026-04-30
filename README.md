@@ -3,7 +3,9 @@
 Personal Dev Container Features for coding agents and developer tools.
 
 This repository is organized as a generic Dev Container Feature collection, not only as an
-agent-specific repository. The initial Features install and persist configuration for:
+agent-specific repository. It provides the following features:
+
+## Coding Tools
 
 - Claude Code
 - Codex
@@ -11,6 +13,10 @@ agent-specific repository. The initial Features install and persist configuratio
 - Cline
 - Roo Code
 - gitlab-cli
+
+## Shared Features
+
+- Shared agents directory
 
 **Claude Code** has an [official Dev Container Feature](https://github.com/anthropics/claude-code). This repository provides a companion Feature that adds persistence on top of the official installation.
 
@@ -34,6 +40,19 @@ This keeps the setting out of each project's `.devcontainer/devcontainer.json`.
 
 **Claude Code** automatically pulls in the official Feature via `dependsOn`, so only the companion Feature needs to be listed.
 
+**OpenCode** also pulls in the shared `agents` Feature via `dependsOn`, so you do not need to list
+`agents` separately unless you want `~/.agents` without OpenCode.
+
+If you want only the shared `~/.agents` directory, add this feature by itself:
+
+```json
+{
+  "dev.containers.defaultFeatures": {
+    "ghcr.io/temeteke/devcontainer-features/agents:0": {}
+  }
+}
+```
+
 This collection is still in `0.x`, so pin the major channel with `:0`. When the collection reaches `1.0`, switch the references to `:1`.
 
 ## Design
@@ -52,18 +71,19 @@ where Docker can access the host filesystem (Linux, macOS, Windows with Docker D
 
 These directories may contain API keys, OAuth tokens, session files, prompts, task histories, and
 other sensitive data. Since they are stored directly in your host home directory (`~/.claude`,
-`~/.codex`, `~/.config/opencode`, `~/.config/glab-cli`, etc.), you can access and edit them directly from the host.
+`~/.codex`, `~/.agents`, `~/.config/opencode`, `~/.config/glab-cli`, etc.), you can access and edit them directly from the host.
 
 ## Included Features
 
 | Feature ID | Installs | Persists |
 |---|---|---|
-| `claude-code` | via official Feature | `~/.claude` |
-| `codex` | `@openai/codex` via npm, VS Code extension `openai.chatgpt` | `~/.codex` |
-| `opencode` | `opencode-ai` via npm, VS Code extension `sst-dev.opencode` | `~/.config/opencode`, `~/.local/share/opencode` |
-| `cline` | VS Code extension `saoudrizwan.claude-dev` | `~/Documents/Cline`, `~/.cline` |
-| `roo-code` | VS Code extension `rooveterinaryinc.roo-cline` | `~/.roo`, VS Code globalStorage |
-| `gitlab-cli` | `glab` CLI from GitLab releases | `~/.config/glab-cli` |
+| `claude-code` | Coding tool via official Feature | `~/.claude` |
+| `codex` | Coding tool: `@openai/codex` via npm, VS Code extension `openai.chatgpt` | `~/.codex` |
+| `opencode` | Coding tool: `opencode-ai` via npm, VS Code extension `sst-dev.opencode` | `~/.config/opencode`, `~/.local/share/opencode`, `~/.agents` via `agents` |
+| `cline` | Coding tool: VS Code extension `saoudrizwan.claude-dev` | `~/Documents/Cline`, `~/.cline` |
+| `roo-code` | Coding tool: VS Code extension `rooveterinaryinc.roo-cline` | `~/.roo`, VS Code globalStorage |
+| `gitlab-cli` | Coding tool: `glab` CLI from GitLab releases | `~/.config/glab-cli` |
+| `agents` | Shared feature for agent skills/state only | `~/.agents` |
 
 ## Publishing
 

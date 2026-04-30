@@ -1,8 +1,8 @@
 {
   "id": "opencode",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "OpenCode",
-  "description": "Installs OpenCode CLI, VS Code extension, and persists its config and data directories.",
+  "description": "Installs OpenCode CLI, VS Code extension, and persists its config, data, and shared agent directories.",
   "options": {
     "install": {
       "type": "boolean",
@@ -21,6 +21,7 @@
     }
   },
   "dependsOn": {
+    "ghcr.io/temeteke/devcontainer-features/agents:0": {},
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     }

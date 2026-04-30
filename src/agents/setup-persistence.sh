@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-FEATURE_ID="opencode"
+FEATURE_ID="agents"
 FEATURE_DIR="/usr/local/share/devcontainer-features/${FEATURE_ID}"
 FEATURE_ENV="${FEATURE_DIR}/feature.env"
 if [ -f "${FEATURE_ENV}" ]; then
@@ -65,5 +65,4 @@ fi
 
 ensure_writable_dir "$BASE_DIR"
 
-link_dir "$BASE_DIR/config" "$HOME/.config/opencode"
-link_dir "$BASE_DIR/data" "$HOME/.local/share/opencode"
+link_dir "$BASE_DIR" "$HOME/.agents"
