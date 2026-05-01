@@ -12,13 +12,13 @@ agent-specific repository. It provides the following features:
 - OpenCode
 - Cline
 - Roo Code
-- gitlab-cli
+- GitLab CLI
+
+**Claude Code** has an [official Dev Container Feature](https://github.com/anthropics/devcontainer-features). This repository provides a companion Feature that adds persistence on top of the official installation.
 
 ## Shared Features
 
 - Shared agents directory
-
-**Claude Code** has an [official Dev Container Feature](https://github.com/anthropics/claude-code). This repository provides a companion Feature that adds persistence on top of the official installation.
 
 ## Usage
 
