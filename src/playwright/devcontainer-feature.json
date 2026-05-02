@@ -1,0 +1,11 @@
+{
+  "id": "playwright",
+  "version": "0.1.0",
+  "name": "Playwright Agent CLI",
+  "description": "Installs Microsoft's Playwright Agent CLI and a browser runtime for AI coding agents.",
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  }
+}
