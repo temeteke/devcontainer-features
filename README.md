@@ -81,7 +81,7 @@ other sensitive data. Since they are stored directly in your host home directory
 |---|---|---|
 | `claude-code` | Coding tool via official Feature | `~/.claude` |
 | `codex` | Coding tool: `@openai/codex` via npm, VS Code extension `openai.chatgpt` | `~/.codex` |
-| `opencode` | Coding tool: `opencode-ai` via npm, VS Code extension `sst-dev.opencode` | `~/.config/opencode`, `~/.local/share/opencode`, `~/.agents` via `agents` |
+| `opencode` | Coding tool: `@opencode/cli` (OpenCode 2) via npm, VS Code extension `sst-dev.opencode` | `~/.config/opencode`, `~/.local/share/opencode`, `~/.agents` via `agents` |
 | `cline` | Coding tool: VS Code extension `saoudrizwan.claude-dev` | `~/Documents/Cline`, `~/.cline` |
 | `roo-code` | Coding tool: VS Code extension `rooveterinaryinc.roo-cline` | `~/.roo`, VS Code globalStorage |
 | `playwright` | AI agent tool: Playwright Agent CLI and browser runtime only | none |
