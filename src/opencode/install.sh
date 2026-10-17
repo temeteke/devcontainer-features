@@ -28,7 +28,7 @@ if ! is_true "${INSTALL:-true}"; then
 fi
 
 if [ "${VERSION:-latest}" = "latest" ]; then
-  npm install -g opencode-ai
+  npm install -g @opencode/cli
 else
-  npm install -g "opencode-ai@${VERSION}"
+  npm install -g "@opencode/cli@${VERSION}"
 fi
