@@ -1,0 +1,22 @@
+name: Validate Dev Container Features
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "test/**"
+      - ".github/workflows/validate.yaml"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "test/**"
+      - ".github/workflows/validate.yaml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON and shell syntax
+        run: bash test/validate.sh
