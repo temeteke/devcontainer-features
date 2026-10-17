@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONFIG_FILE="${VIM_FEATURE_CONFIG_FILE:-/mnt/devcontainer-features/vim/vimrc}"
-CONFIG_DIR="${VIM_FEATURE_CONFIG_DIR:-/mnt/devcontainer-features/vim/vim}"
+CONFIG_FILE="/mnt/devcontainer-features/vim/vimrc"
+CONFIG_DIR="/mnt/devcontainer-features/vim/vim"
 : "${HOME:?HOME must be set}"
 
 if [[ ! -f "$CONFIG_FILE" ]]; then

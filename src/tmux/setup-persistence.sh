@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOURCE="${TMUX_FEATURE_CONFIG_FILE:-/mnt/devcontainer-features/tmux/tmux.conf}"
+SOURCE="/mnt/devcontainer-features/tmux/tmux.conf"
 : "${HOME:?HOME must be set}"
 TARGET="$HOME/.tmux.conf"
 

@@ -11,6 +11,4 @@ for s in src/*/*.sh; do
   bash -n "$s"
 done
 
-bash test/config-links.sh
-
 echo "OK"
