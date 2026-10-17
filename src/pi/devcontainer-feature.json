@@ -1,0 +1,36 @@
+{
+  "id": "pi",
+  "version": "0.1.0",
+  "name": "Pi Coding Agent",
+  "description": "Installs the Pi CLI and persists default ~/.pi/agent state.",
+  "options": {
+    "install": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install the tool."
+    },
+    "persist": {
+      "type": "boolean",
+      "default": true,
+      "description": "Link the default user-state directory to its bind-mounted host directory."
+    },
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "npm version for @earendil-works/pi-coding-agent; latest or a concrete version."
+    }
+  },
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.pi/agent",
+      "target": "/mnt/devcontainer-features/pi"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/pi/setup-persistence.sh"
+}
