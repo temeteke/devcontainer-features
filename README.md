@@ -91,8 +91,8 @@ other sensitive data. Since they are stored directly in your host home directory
 | `playwright` | AI agent tool: Playwright Agent CLI and browser runtime only | none |
 | `gitlab-cli` | Coding tool: `glab` CLI from GitLab releases | `~/.config/glab-cli` |
 | `agents` | Shared feature for agent skills/state only | `~/.agents` |
-| `tmux` | `tmux` via apt (Debian/Ubuntu) | read-only `~/.tmux.conf` |
-| `vim` | `vim` via apt (Debian/Ubuntu) | read-only `~/.vimrc`, read-write `~/.vim` |
+| `tmux` | `tmux` via apt (Debian/Ubuntu) | read-write `~/.tmux.conf` |
+| `vim` | `vim` via apt (Debian/Ubuntu) | read-write `~/.vimrc`, `~/.vim` |
 
 ## Publishing
 
@@ -109,8 +109,9 @@ Roo Code, Cline, OpenCode, or GitLab.
 ## Terminal Features
 
 The `tmux` Feature installs tmux and shares the host's `~/.tmux.conf`
-file read-only. The `vim` Feature installs Vim and shares `~/.vimrc`
-read-only and `~/.vim/` read-write. This supports standard dotfile layouts,
+file. The `vim` Feature installs Vim and shares `~/.vimrc` and `~/.vim/`.
+These mounts are read-write because Feature metadata does not support
+read-only bind mount properties. This supports standard dotfile layouts,
 including Vim configurations that install plugins or write undo data under
 `~/.vim/`.
 
@@ -118,8 +119,8 @@ Before starting a Dev Container, ensure the corresponding host paths exist.
 A missing bind-mount source may prevent the container from starting.
 These Features do not mount the entire host HOME directory.
 
-The writable `~/.vim/` mount allows processes in the container to modify
-host Vim configuration, plugins and state. Review this security tradeoff
+All shared configuration paths are writable by container processes, including
+`~/.tmux.conf`, `~/.vimrc`, and `~/.vim/`. Review this security tradeoff
 before using these Features with untrusted code.
 
 See [`src/tmux/README.md`](src/tmux/README.md) and

@@ -1,7 +1,7 @@
 # tmux Feature
 
 Installs tmux on Debian/Ubuntu and exposes the **host** `~/.tmux.conf`
-file in the container, read-only. A symlink at the container user's
+file in the container (read-write bind mount). A symlink at the container user's
 `~/.tmux.conf` points to the mounted file.
 
 ## Host configuration
@@ -22,6 +22,9 @@ file bind mount cannot be skipped dynamically; the container may fail to start.
   }
 }
 ```
+
+Dev Container Feature metadata cannot declare read-only bind mounts, so
+container processes can also **modify the host's** `~/.tmux.conf`.
 
 Only the configuration file is shared; tmux server/socket/session state
 belongs to the temporary container. The container startup script refuses

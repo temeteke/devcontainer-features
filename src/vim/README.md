@@ -1,7 +1,7 @@
 # Vim Feature
 
 Installs the full `vim` package on Debian/Ubuntu. Exposes the **host**
-`~/.vimrc` **read-only** and `~/.vim/` **read-write** and links both
+`~/.vimrc` and `~/.vim/` via **read-write** bind mounts and links both
 paths into the container user's HOME.
 
 ## Host configuration
@@ -19,6 +19,10 @@ mount would prevent these operations. This also means processes running
 inside the container can modify host Vim configuration, plugins and state.
 Review this exception to workspace isolation before using the Feature
 with untrusted code.
+
+The `~/.vimrc` file is also writable from inside the container because
+Dev Container Feature metadata does not provide a read-only mount property.
+This is an explicit exception to workspace-only isolation.
 
 The optional `~/.vimrc.local` is not mounted, so Vim skips it unless
 another mount provides it.
