@@ -1,0 +1,15 @@
+{
+  "id": "tmux",
+  "version": "0.1.0",
+  "name": "tmux",
+  "description": "Installs tmux and shares the host ~/.tmux.conf read-only.",
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.tmux.conf",
+      "target": "/mnt/devcontainer-features/tmux/tmux.conf",
+      "readonly": true
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/tmux/setup-persistence.sh"
+}
