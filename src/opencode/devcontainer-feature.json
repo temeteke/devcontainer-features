@@ -1,8 +1,8 @@
 {
   "id": "opencode",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "OpenCode",
-  "description": "Installs OpenCode CLI, VS Code extension, and persists its config, data, and shared agent directories.",
+  "description": "Installs OpenCode 2 CLI, VS Code extension, and persists its config, data, and shared agent directories.",
   "options": {
     "install": {
       "type": "boolean",
@@ -17,7 +17,7 @@
     "version": {
       "type": "string",
       "default": "latest",
-      "description": "npm package version for opencode-ai."
+      "description": "npm package version for @opencode/cli. Use latest or a concrete version."
     }
   },
   "dependsOn": {
