@@ -1,24 +1,18 @@
 # tmux Feature
 
-Installs tmux on Debian/Ubuntu and shares the **host** `~/.config/tmux` directory
-with the container **read-only**. The container's `~/.config/tmux` is a symlink
-to that bind mount. tmux reads `~/.config/tmux/tmux.conf` natively.
+Installs tmux on Debian/Ubuntu and exposes the **host** `~/.tmux.conf`
+file in the container, read-only. A symlink at the container user's
+`~/.tmux.conf` points to the mounted file.
 
-## One-time host setup
+## Host configuration
 
-Run this on the host **before** creating the dev container (Docker bind mounts
-require their source directory to exist):
+This matches [temeteke/tmux-config](https://github.com/temeteke/tmux-config):
+its Makefile assembles `~/.tmux.conf` and installs it in the host HOME.
+There is **no need to migrate** to `~/.config/tmux/tmux.conf`.
 
-```sh
-mkdir -p ~/.config/tmux
-```
-
-If you currently use `~/.tmux.conf`, move it to
-`~/.config/tmux/tmux.conf` after checking the destination does not already
-exist. The legacy dotfile itself is deliberately *not* bind-mounted: a bind mount
-of a missing host file can fail, and mounting the host HOME would expose unrelated
-data. If your configuration references plugins in `~/.tmux`, relocate or configure
-those references under `~/.config/tmux` as well.
+Before building/starting the Dev Container, make sure `~/.tmux.conf`
+is a regular file or a resolvable symlink to a file on the host. A missing
+file bind mount cannot be skipped dynamically; the container may fail to start.
 
 ## Usage
 
@@ -30,8 +24,6 @@ those references under `~/.config/tmux` as well.
 }
 ```
 
-Only configuration is shared: tmux servers, sockets and sessions are not
-persisted when the container is removed. Host configuration is read-only from
-inside the container; plugins that need to update themselves must be managed on
-the host. If the image already has a nonempty `~/.config/tmux`, setup fails
-rather than destroying that container-side data.
+Only the configuration file is shared; tmux server/socket/session state
+belongs to the temporary container. The container startup script refuses
+to overwrite an existing `~/.tmux.conf` file or unrelated symlink.

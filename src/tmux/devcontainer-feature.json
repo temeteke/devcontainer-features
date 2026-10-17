@@ -2,12 +2,12 @@
   "id": "tmux",
   "version": "0.1.0",
   "name": "tmux",
-  "description": "Installs tmux and makes the host ~/.config/tmux configuration available read-only.",
+  "description": "Installs tmux and shares the host ~/.tmux.conf read-only.",
   "mounts": [
     {
       "type": "bind",
-      "source": "${localEnv:HOME}/.config/tmux",
-      "target": "/mnt/devcontainer-features/tmux/config",
+      "source": "${localEnv:HOME}/.tmux.conf",
+      "target": "/mnt/devcontainer-features/tmux/tmux.conf",
       "readonly": true
     }
   ],

@@ -2,13 +2,19 @@
   "id": "vim",
   "version": "0.1.0",
   "name": "Vim",
-  "description": "Installs vim and makes the host ~/.vim configuration available read-only.",
+  "description": "Installs Vim and shares host ~/.vimrc (read-only) and ~/.vim (read-write).",
   "mounts": [
     {
       "type": "bind",
-      "source": "${localEnv:HOME}/.vim",
-      "target": "/mnt/devcontainer-features/vim/config",
+      "source": "${localEnv:HOME}/.vimrc",
+      "target": "/mnt/devcontainer-features/vim/vimrc",
       "readonly": true
+    },
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.vim",
+      "target": "/mnt/devcontainer-features/vim/vim",
+      "readonly": false
     }
   ],
   "postCreateCommand": "/usr/local/share/devcontainer-features/vim/setup-persistence.sh"

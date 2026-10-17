@@ -4,36 +4,66 @@ set -euo pipefail
 root="$(mktemp -d)"
 trap 'rm -rf "$root"' EXIT
 
-for feature in tmux vim; do
-  src="$root/shared-$feature"
-  home="$root/home-$feature"
-  mkdir -p "$src" "$home"
-  if [[ "$feature" == "tmux" ]]; then
-    var="TMUX_FEATURE_CONFIG_DIR"
-    target="$home/.config/tmux"
-  else
-    var="VIM_FEATURE_CONFIG_DIR"
-    target="$home/.vim"
-  fi
+tmux_src="$root/host.tmux.conf"
+vimrc_src="$root/host.vimrc"
+vim_dir="$root/host.vim"
+printf 'set -g mouse on\n' > "$tmux_src"
+printf 'set number\n' > "$vimrc_src"
+mkdir -p "$vim_dir"
+printf 'plugin state\n' > "$vim_dir/plugin.vim"
 
-  script="src/$feature/setup-persistence.sh"
-  env HOME="$home" "$var=$src" bash "$script"
-  [[ -L "$target" && "$(readlink "$target")" == "$src" ]]
-  env HOME="$home" "$var=$src" bash "$script"  # idempotent
+tmux_home="$root/tmux-home"
+vim_home="$root/vim-home"
+mkdir -p "$tmux_home" "$vim_home"
 
-  printf 'shared\n' > "$src/marker"
-  [[ "$(cat "$target/marker")" == "shared" ]]
+env HOME="$tmux_home" TMUX_FEATURE_CONFIG_FILE="$tmux_src" \
+  bash src/tmux/setup-persistence.sh
+[[ "$(readlink "$tmux_home/.tmux.conf")" == "$tmux_src" ]]
+env HOME="$tmux_home" TMUX_FEATURE_CONFIG_FILE="$tmux_src" \
+  bash src/tmux/setup-persistence.sh
 
-  # Do not replace an existing nonempty container-side config.
-  conflicting_home="$root/conflict-$feature"
-  conflicting_target="$conflicting_home/${target#"$home"/}"
-  mkdir -p "$conflicting_target"
-  printf 'keep\n' > "$conflicting_target/existing"
-  if env HOME="$conflicting_home" "$var=$src" bash "$script" >/dev/null 2>&1; then
-    echo "Expected conflicting $feature config to fail" >&2
-    exit 1
-  fi
-  [[ "$(cat "$conflicting_target/existing")" == "keep" ]]
-done
+env HOME="$vim_home" VIM_FEATURE_CONFIG_FILE="$vimrc_src" \
+  VIM_FEATURE_CONFIG_DIR="$vim_dir" bash src/vim/setup-persistence.sh
+[[ "$(readlink "$vim_home/.vimrc")" == "$vimrc_src" ]]
+[[ "$(readlink "$vim_home/.vim")" == "$vim_dir" ]]
+[[ "$(cat "$vim_home/.vim/plugin.vim")" == "plugin state" ]]
+env HOME="$vim_home" VIM_FEATURE_CONFIG_FILE="$vimrc_src" \
+  VIM_FEATURE_CONFIG_DIR="$vim_dir" bash src/vim/setup-persistence.sh
+
+# Vim plugin state must be writable for current vim-config bootstrap.
+printf 'updated\n' > "$vim_home/.vim/plugin.vim"
+[[ "$(cat "$vim_dir/plugin.vim")" == "updated" ]]
+
+# Missing source fails, and no configuration is created.
+if env HOME="$root/no-tmux" TMUX_FEATURE_CONFIG_FILE="$root/missing-file" \
+  bash src/tmux/setup-persistence.sh > /dev/null 2>&1; then
+  echo "Missing tmux source unexpectedly accepted" >&2
+  exit 1
+fi
+if env HOME="$root/no-vim" VIM_FEATURE_CONFIG_FILE="$vimrc_src" \
+  VIM_FEATURE_CONFIG_DIR="$root/missing-dir" \
+  bash src/vim/setup-persistence.sh > /dev/null 2>&1; then
+  echo "Missing vim directory unexpectedly accepted" >&2
+  exit 1
+fi
+
+# Conflicts preserve existing files and do not partially link.
+mkdir -p "$root/conflict-tmux" "$root/conflict-vim/.vim"
+printf 'keep\n' > "$root/conflict-tmux/.tmux.conf"
+printf 'keep\n' > "$root/conflict-vim/.vim/existing"
+if env HOME="$root/conflict-tmux" TMUX_FEATURE_CONFIG_FILE="$tmux_src" \
+  bash src/tmux/setup-persistence.sh > /dev/null 2>&1; then
+  echo "tmux overwrote an existing config" >&2
+  exit 1
+fi
+if env HOME="$root/conflict-vim" VIM_FEATURE_CONFIG_FILE="$vimrc_src" \
+  VIM_FEATURE_CONFIG_DIR="$vim_dir" bash src/vim/setup-persistence.sh \
+  > /dev/null 2>&1; then
+  echo "vim overwrote an existing config" >&2
+  exit 1
+fi
+[[ "$(cat "$root/conflict-tmux/.tmux.conf")" == "keep" ]]
+[[ "$(cat "$root/conflict-vim/.vim/existing")" == "keep" ]]
+[[ ! -e "$root/conflict-vim/.vimrc" ]]
 
 echo "Persistence smoke tests OK"

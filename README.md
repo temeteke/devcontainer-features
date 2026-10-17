@@ -91,8 +91,8 @@ other sensitive data. Since they are stored directly in your host home directory
 | `playwright` | AI agent tool: Playwright Agent CLI and browser runtime only | none |
 | `gitlab-cli` | Coding tool: `glab` CLI from GitLab releases | `~/.config/glab-cli` |
 | `agents` | Shared feature for agent skills/state only | `~/.agents` |
-| `tmux` | `tmux` via apt (Debian/Ubuntu) | read-only `~/.config/tmux` |
-| `vim` | `vim` via apt (Debian/Ubuntu) | read-only `~/.vim` |
+| `tmux` | `tmux` via apt (Debian/Ubuntu) | read-only `~/.tmux.conf` |
+| `vim` | `vim` via apt (Debian/Ubuntu) | read-only `~/.vimrc`, read-write `~/.vim` |
 
 ## Publishing
 
@@ -108,11 +108,15 @@ Roo Code, Cline, OpenCode, or GitLab.
 
 ## Terminal Features
 
-The optional `tmux` and `vim` Features share host settings read-only through
-the standard directory-based configurations. Before creating a container, run
-`mkdir -p ~/.config/tmux ~/.vim` on the host. If you use `~/.tmux.conf` or
-`~/.vimrc`, migrate those files to `~/.config/tmux/tmux.conf` and
-`~/.vim/vimrc` respectively. These legacy dotfiles are **not** mounted.
-The features do not mount the host HOME directory. See
-[`src/tmux/README.md`](src/tmux/README.md) and
-[`src/vim/README.md`](src/vim/README.md).
+`tmux` mounts the host's `~/.tmux.conf` file read-only. `vim` mounts
+`~/.vimrc` read-only and `~/.vim` read-write so vim-jetpack can manage
+plugins and undo files. This follows the existing
+[tmux-config](https://github.com/temeteke/tmux-config) and
+[vim-config](https://github.com/temeteke/vim-config) Makefile installations.
+No migration to new dotfile locations is needed.
+
+Before launching a Dev Container, make sure these host files/directories
+exist; bind mounting a missing file can fail before lifecycle hooks run.
+No other host HOME paths are mounted by these two Features.
+See [`src/tmux/README.md`](src/tmux/README.md) and
+[`src/vim/README.md`](src/vim/README.md) for details.
