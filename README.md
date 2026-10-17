@@ -108,15 +108,19 @@ Roo Code, Cline, OpenCode, or GitLab.
 
 ## Terminal Features
 
-`tmux` mounts the host's `~/.tmux.conf` file read-only. `vim` mounts
-`~/.vimrc` read-only and `~/.vim` read-write so vim-jetpack can manage
-plugins and undo files. This follows the existing
-[tmux-config](https://github.com/temeteke/tmux-config) and
-[vim-config](https://github.com/temeteke/vim-config) Makefile installations.
-No migration to new dotfile locations is needed.
+The `tmux` Feature installs tmux and shares the host's `~/.tmux.conf`
+file read-only. The `vim` Feature installs Vim and shares `~/.vimrc`
+read-only and `~/.vim/` read-write. This supports standard dotfile layouts,
+including Vim configurations that install plugins or write undo data under
+`~/.vim/`.
 
-Before launching a Dev Container, make sure these host files/directories
-exist; bind mounting a missing file can fail before lifecycle hooks run.
-No other host HOME paths are mounted by these two Features.
+Before starting a Dev Container, ensure the corresponding host paths exist.
+A missing bind-mount source may prevent the container from starting.
+These Features do not mount the entire host HOME directory.
+
+The writable `~/.vim/` mount allows processes in the container to modify
+host Vim configuration, plugins and state. Review this security tradeoff
+before using these Features with untrusted code.
+
 See [`src/tmux/README.md`](src/tmux/README.md) and
 [`src/vim/README.md`](src/vim/README.md) for details.

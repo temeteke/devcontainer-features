@@ -6,9 +6,8 @@ file in the container, read-only. A symlink at the container user's
 
 ## Host configuration
 
-This matches [temeteke/tmux-config](https://github.com/temeteke/tmux-config):
-its Makefile assembles `~/.tmux.conf` and installs it in the host HOME.
-There is **no need to migrate** to `~/.config/tmux/tmux.conf`.
+The Feature uses tmux's conventional `~/.tmux.conf` configuration file.
+It does not mount `~/.config/tmux/` or other host configuration paths.
 
 Before building/starting the Dev Container, make sure `~/.tmux.conf`
 is a regular file or a resolvable symlink to a file on the host. A missing

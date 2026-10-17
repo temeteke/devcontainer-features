@@ -30,7 +30,7 @@ env HOME="$vim_home" VIM_FEATURE_CONFIG_FILE="$vimrc_src" \
 env HOME="$vim_home" VIM_FEATURE_CONFIG_FILE="$vimrc_src" \
   VIM_FEATURE_CONFIG_DIR="$vim_dir" bash src/vim/setup-persistence.sh
 
-# Vim plugin state must be writable for current vim-config bootstrap.
+# Vim plugin/runtime state must be writable when the host directory is shared.
 printf 'updated\n' > "$vim_home/.vim/plugin.vim"
 [[ "$(cat "$vim_dir/plugin.vim")" == "updated" ]]
 

@@ -6,20 +6,19 @@ paths into the container user's HOME.
 
 ## Host configuration
 
-This matches [temeteke/vim-config](https://github.com/temeteke/vim-config):
-its Makefile installs `~/.vimrc` and populates `~/.vim/` with scripts,
-plugin configuration and an undo directory. No configuration migration
-is required.
+The Feature uses Vim's conventional `~/.vimrc` and `~/.vim/` paths.
+Configurations that use different locations must arrange those paths on
+the host before starting the container.
 
 Make sure both `~/.vimrc` (file) and `~/.vim/` (directory) exist on the
 host before starting a container. Missing bind sources may prevent startup.
 
-**Why is `~/.vim` writable?** The current `vim-config/plugin.vim`
-bootstraps vim-jetpack and synchronizes plugins on startup; the Makefile
-also creates `~/.vim/undo`. Read-only sharing would break that workflow.
-This means code running inside the container can modify host Vim plugins
-and other files under `~/.vim`. Do not use this Feature with untrusted
-agents unless you accept that exception to workspace isolation.
+**Why is `~/.vim` writable?** Some Vim configurations install or update
+plugins and store undo or other runtime data inside `~/.vim/`. A read-only
+mount would prevent these operations. This also means processes running
+inside the container can modify host Vim configuration, plugins and state.
+Review this exception to workspace isolation before using the Feature
+with untrusted code.
 
 The optional `~/.vimrc.local` is not mounted, so Vim skips it unless
 another mount provides it.
