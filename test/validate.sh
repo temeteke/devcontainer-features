@@ -11,4 +11,6 @@ for s in src/*/*.sh; do
   bash -n "$s"
 done
 
+bash test/persistence.sh
+
 echo "OK"

@@ -14,6 +14,8 @@ agent-specific repository. It provides the following features:
 - Roo Code
 - Playwright Agent CLI
 - GitLab CLI
+- tmux
+- Vim
 
 **Claude Code** has an [official Dev Container Feature](https://github.com/anthropics/devcontainer-features). This repository provides a companion Feature that adds persistence on top of the official installation.
 
@@ -35,7 +37,9 @@ This keeps the setting out of each project's `.devcontainer/devcontainer.json`.
     "ghcr.io/temeteke/devcontainer-features/cline:0": {},
     "ghcr.io/temeteke/devcontainer-features/roo-code:0": {},
     "ghcr.io/temeteke/devcontainer-features/playwright:0": {},
-    "ghcr.io/temeteke/devcontainer-features/gitlab-cli:0": {}
+    "ghcr.io/temeteke/devcontainer-features/gitlab-cli:0": {},
+    "ghcr.io/temeteke/devcontainer-features/tmux:0": {},
+    "ghcr.io/temeteke/devcontainer-features/vim:0": {}
   }
 }
 ```
@@ -87,6 +91,8 @@ other sensitive data. Since they are stored directly in your host home directory
 | `playwright` | AI agent tool: Playwright Agent CLI and browser runtime only | none |
 | `gitlab-cli` | Coding tool: `glab` CLI from GitLab releases | `~/.config/glab-cli` |
 | `agents` | Shared feature for agent skills/state only | `~/.agents` |
+| `tmux` | `tmux` via apt (Debian/Ubuntu) | read-only `~/.config/tmux` |
+| `vim` | `vim` via apt (Debian/Ubuntu) | read-only `~/.vim` |
 
 ## Publishing
 
@@ -99,3 +105,14 @@ fork the repository.
 This repository is an unofficial collection of Dev Container Features.
 It is not affiliated with, endorsed by, or maintained by OpenAI, Anthropic,
 Roo Code, Cline, OpenCode, or GitLab.
+
+## Terminal Features
+
+The optional `tmux` and `vim` Features share host settings read-only through
+the standard directory-based configurations. Before creating a container, run
+`mkdir -p ~/.config/tmux ~/.vim` on the host. If you use `~/.tmux.conf` or
+`~/.vimrc`, migrate those files to `~/.config/tmux/tmux.conf` and
+`~/.vim/vimrc` respectively. These legacy dotfiles are **not** mounted.
+The features do not mount the host HOME directory. See
+[`src/tmux/README.md`](src/tmux/README.md) and
+[`src/vim/README.md`](src/vim/README.md).

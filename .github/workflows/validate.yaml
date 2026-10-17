@@ -1,0 +1,13 @@
+name: Validate Dev Container Features
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate metadata, shell scripts and configuration links
+        run: bash test/validate.sh
