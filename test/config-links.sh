@@ -10,7 +10,7 @@ vim_dir="$root/host.vim"
 printf 'set -g mouse on\n' > "$tmux_src"
 printf 'set number\n' > "$vimrc_src"
 mkdir -p "$vim_dir"
-printf 'plugin state\n' > "$vim_dir/plugin.vim"
+printf 'sample data\n' > "$vim_dir/example.txt"
 
 tmux_home="$root/tmux-home"
 vim_home="$root/vim-home"
@@ -26,13 +26,13 @@ env HOME="$vim_home" VIM_FEATURE_CONFIG_FILE="$vimrc_src" \
   VIM_FEATURE_CONFIG_DIR="$vim_dir" bash src/vim/setup-persistence.sh
 [[ "$(readlink "$vim_home/.vimrc")" == "$vimrc_src" ]]
 [[ "$(readlink "$vim_home/.vim")" == "$vim_dir" ]]
-[[ "$(cat "$vim_home/.vim/plugin.vim")" == "plugin state" ]]
+[[ "$(cat "$vim_home/.vim/example.txt")" == "sample data" ]]
 env HOME="$vim_home" VIM_FEATURE_CONFIG_FILE="$vimrc_src" \
   VIM_FEATURE_CONFIG_DIR="$vim_dir" bash src/vim/setup-persistence.sh
 
-# Vim plugin/runtime state must be writable when the host directory is shared.
-printf 'updated\n' > "$vim_home/.vim/plugin.vim"
-[[ "$(cat "$vim_dir/plugin.vim")" == "updated" ]]
+# Updates inside the shared directory must be reflected at the host source.
+printf 'updated\n' > "$vim_home/.vim/example.txt"
+[[ "$(cat "$vim_dir/example.txt")" == "updated" ]]
 
 # Missing source fails, and no configuration is created.
 if env HOME="$root/no-tmux" TMUX_FEATURE_CONFIG_FILE="$root/missing-file" \
@@ -66,4 +66,4 @@ fi
 [[ "$(cat "$root/conflict-vim/.vim/existing")" == "keep" ]]
 [[ ! -e "$root/conflict-vim/.vimrc" ]]
 
-echo "Persistence smoke tests OK"
+echo "Configuration link smoke tests OK"
