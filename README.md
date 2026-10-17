@@ -11,7 +11,6 @@ agent-specific repository. It provides the following features:
 - Codex
 - OpenCode
 - Pi Coding Agent
-- DeepSeek Harness (dsh)
 - Cline
 - Roo Code
 - Playwright Agent CLI
@@ -37,7 +36,6 @@ This keeps the setting out of each project's `.devcontainer/devcontainer.json`.
     "ghcr.io/temeteke/devcontainer-features/codex:0": {},
     "ghcr.io/temeteke/devcontainer-features/opencode:0": {},
     "ghcr.io/temeteke/devcontainer-features/pi:0": {},
-    "ghcr.io/temeteke/devcontainer-features/dsh:0": {},
     "ghcr.io/temeteke/devcontainer-features/cline:0": {},
     "ghcr.io/temeteke/devcontainer-features/roo-code:0": {},
     "ghcr.io/temeteke/devcontainer-features/playwright:0": {},
@@ -91,7 +89,6 @@ other sensitive data. Since they are stored directly in your host home directory
 | `codex` | Coding tool: `@openai/codex` via npm, VS Code extension `openai.chatgpt` | `~/.codex` |
 | `opencode` | Coding tool: `@opencode/cli` (OpenCode 2) via npm, VS Code extension `sst-dev.opencode` | `~/.config/opencode`, `~/.local/share/opencode`, `~/.agents` via `agents` |
 | `pi` | Coding tool: `@earendil-works/pi-coding-agent` via npm | `~/.pi/agent` |
-| `dsh` | Agent harness: `@deepseek-ai/dsh` via npm | `~/.dsh` |
 | `cline` | Coding tool: VS Code extension `saoudrizwan.claude-dev` | `~/Documents/Cline`, `~/.cline` |
 | `roo-code` | Coding tool: VS Code extension `rooveterinaryinc.roo-cline` | `~/.roo`, VS Code globalStorage |
 | `playwright` | AI agent tool: Playwright Agent CLI and browser runtime only | none |
@@ -121,7 +118,7 @@ read-only bind mount properties. This supports standard dotfile layouts,
 including Vim configurations that install plugins or write undo data under
 `~/.vim/`.
 
-Before starting a Dev Container, ensure the corresponding host paths exist (including `~/.pi/agent` and `~/.dsh` when enabled).
+Before starting a Dev Container, ensure the corresponding host paths exist (including `~/.pi/agent` when enabled).
 A missing bind-mount source may prevent the container from starting.
 These Features do not mount the entire host HOME directory.
 
