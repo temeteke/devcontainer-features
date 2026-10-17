@@ -9,5 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate metadata and shell script syntax
+      - name: Validate JSON and Bash syntax
         run: bash test/validate.sh
+      - name: Install Dev Container CLI
+        run: npm install --global @devcontainers/cli
+      - name: Validate Feature packaging
+        run: devcontainer features package ./src
