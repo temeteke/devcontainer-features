@@ -19,65 +19,73 @@ agent-specific repository. It provides the following features:
 
 **Claude Code** has an [official Dev Container Feature](https://github.com/anthropics/devcontainer-features). This repository provides a companion Feature that adds persistence on top of the official installation.
 
+## Kubernetes Tools
+
+- kubectl
+- Helmfile (installs Helm and helm-diff)
+
 ## Shared Features
 
 - Shared agents directory
 
 ## Usage
 
-Publish the Features to GHCR first, then paste the following into your **VS Code User Settings**.
-This keeps the setting out of each project's `.devcontainer/devcontainer.json`.
+Add Features to `.devcontainer/devcontainer.json`:
 
 ```json
 {
-  "dev.containers.defaultFeatures": {
-    "ghcr.io/temeteke/devcontainer-features/claude-code:0": {},
+  "features": {
     "ghcr.io/temeteke/devcontainer-features/codex:0": {},
-    "ghcr.io/temeteke/devcontainer-features/opencode:0": {},
-    "ghcr.io/temeteke/devcontainer-features/cline:0": {},
-    "ghcr.io/temeteke/devcontainer-features/roo-code:0": {},
-    "ghcr.io/temeteke/devcontainer-features/playwright:0": {},
-    "ghcr.io/temeteke/devcontainer-features/gitlab-cli:0": {},
-    "ghcr.io/temeteke/devcontainer-features/tmux:0": {},
-    "ghcr.io/temeteke/devcontainer-features/vim:0": {}
+    "ghcr.io/temeteke/devcontainer-features/gitlab-cli:0": {
+      "version": "1.126.0"
+    }
   }
 }
 ```
 
-**Claude Code** automatically pulls in the official Feature via `dependsOn`, so only the companion Feature needs to be listed.
-
-**OpenCode** also pulls in the shared `agents` Feature via `dependsOn`, so you do not need to list
-`agents` separately unless you want `~/.agents` without OpenCode.
-
-If you want only the shared `~/.agents` directory, add this feature by itself:
-
-```json
-{
-  "dev.containers.defaultFeatures": {
-    "ghcr.io/temeteke/devcontainer-features/agents:0": {}
-  }
-}
-```
-
-This collection is still in `0.x`, so pin the major channel with `:0`. When the collection reaches `1.0`, switch the references to `:1`.
+Persistence Features mount the corresponding directory from your host home. Create it
+before opening the container if it does not exist (for example,
+`mkdir -p ~/.codex ~/.config/glab-cli`).
 
 ## Design
 
-Each Feature either installs and persists a coding agent, or adds persistence on top of an
-official installation. All Features use a **bind mount** to mount the tool's standard directories
-from the host home directory directly into the container, then create symlinks from the container's
-home directory to the mounted paths.
+Each Feature either installs a tool, persists a coding agent, or adds persistence on top of an
+official installation. Features that persist state use a **bind mount** to mount the tool's
+standard directories from the host home directory into the container, then create symlinks from
+the container's home directory to the mounted paths.
+
+If the container already has a directory, file, or symlink at the link destination (and it is
+not already the expected link), it is moved to `<path>.devcontainer-backup` (or a numbered name
+such as `<path>.devcontainer-backup.1` if that exists) before the symlink is created. Empty
+directories are removed. Container data is never copied into the host directory. Mount points
+and paths under non-root mounts are left untouched, and no symlink is created for them. If the
+mount cannot be determined, the symlink is skipped rather than risking host data.
+
+Backups are created inside the container and are not preserved across rebuilds. Copy them
+elsewhere first if you need to keep them.
+
+The `tmux` and `vim` Features are stricter: they refuse to replace existing container
+configuration instead of moving it aside.
+
+If `$HOME` itself is a volume or bind mount, the target is treated as a mount and the symlink
+is skipped. `persist: false` only skips the symlink; Feature mounts are always applied, so the
+host directory is still visible inside the container.
 
 The symlink approach avoids hard-coding `/home/vscode`, `/home/node`, `/home/coder`, or `/root`.
 
-**Platform:** These Features use `${localEnv:HOME}` for bind mounts, so they work on any platform
-where Docker can access the host filesystem (Linux, macOS, Windows with Docker Desktop, WSL2, etc.).
+**Platform:** Persistence Features use `${localEnv:HOME}` for bind mounts. They work where
+`HOME` is set and Docker can access the host filesystem (Linux, macOS, and WSL2). Native Windows
+requires `HOME` to be set explicitly.
 
 ## Security note
 
 These directories may contain API keys, OAuth tokens, session files, prompts, task histories, and
 other sensitive data. Since they are stored directly in your host home directory (`~/.claude`,
-`~/.codex`, `~/.agents`, `~/.config/opencode`, `~/.config/glab-cli`, etc.), you can access and edit them directly from the host.
+`~/.codex`, `~/.agents`, `~/.config/opencode`, `~/.config/glab-cli`, `~/.kube`, etc.), you can access and edit them directly from the host.
+
+In particular, `~/.kube` can contain cluster credentials and client certificates. It is mounted
+read-write so `kubectl` can update contexts and caches. Enable the `kubectl` Feature only for
+projects you trust.
 
 ## Included Features
 
@@ -90,6 +98,8 @@ other sensitive data. Since they are stored directly in your host home directory
 | `roo-code` | Coding tool: VS Code extension `rooveterinaryinc.roo-cline` | `~/.roo`, VS Code globalStorage |
 | `playwright` | AI agent tool: Playwright Agent CLI and browser runtime only | none |
 | `gitlab-cli` | Coding tool: `glab` CLI from GitLab releases | `~/.config/glab-cli` |
+| `kubectl` | Kubernetes tool: `kubectl` from Kubernetes releases | `~/.kube` |
+| `helmfile` | Kubernetes tool: `helmfile`, Helm, and `helm-diff` | none |
 | `agents` | Shared feature for agent skills/state only | `~/.agents` |
 | `tmux` | `tmux` via apt (Debian/Ubuntu) | read-write `~/.tmux.conf` |
 | `vim` | `vim` via apt (Debian/Ubuntu) | read-write `~/.vimrc`, `~/.vim` |

@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'src/**'
+      - 'test/**'
       - '.github/workflows/**'
   workflow_dispatch:
 
@@ -17,6 +18,9 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+
+      - name: Validate Features
+        run: bash test/validate.sh
 
       - name: Publish Features
         uses: devcontainers/action@v1

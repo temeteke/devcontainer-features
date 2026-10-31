@@ -1,0 +1,29 @@
+{
+  "id": "helmfile",
+  "version": "0.1.0",
+  "name": "Helmfile",
+  "description": "Installs helmfile together with Helm and the helm-diff plugin required by helmfile.",
+  "options": {
+    "install": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install helmfile, Helm, and the helm-diff plugin."
+    },
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "helmfile version to install (e.g., 1.8.2). Use 'latest' for the most recent release."
+    },
+    "helmVersion": {
+      "type": "string",
+      "default": "latest",
+      "description": "Helm version to install (e.g., 4.3.1). Use 'latest' for the most recent release."
+    },
+    "helmDiffVersion": {
+      "type": "string",
+      "default": "latest",
+      "description": "helm-diff plugin version to install (e.g., 3.15.15). Use 'latest' for the most recent release."
+    }
+  },
+  "postCreateCommand": "/usr/local/share/devcontainer-features/helmfile/setup-helm-diff.sh"
+}
