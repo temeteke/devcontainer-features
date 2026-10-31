@@ -10,6 +10,7 @@ if [ -f "${FEATURE_ENV}" ]; then
 fi
 
 PERSIST="${PERSIST:-true}"
+CACHE="${CACHE:-true}"
 BASE_DIR="/mnt/devcontainer-features/${FEATURE_ID}"
 
 log() {
@@ -127,12 +128,21 @@ link_dir() {
   fi
 }
 
-if ! is_true "$PERSIST"; then
-  log "Persistence disabled."
-  exit 0
-fi
-
 ensure_writable_dir "$BASE_DIR"
 
-link_dir "$BASE_DIR/config" "$HOME/.config/opencode"
-link_dir "$BASE_DIR/data" "$HOME/.local/share/opencode"
+if is_true "$PERSIST"; then
+  link_dir "$BASE_DIR/config" "$HOME/.config/opencode"
+  link_dir "$BASE_DIR/data" "$HOME/.local/share/opencode"
+else
+  log "Persistence disabled."
+fi
+
+if is_true "$CACHE"; then
+  link_dir "$BASE_DIR/cache" "$HOME/.cache/opencode/npm" || log "Warning: failed to link the plugin cache."
+else
+  log "Plugin cache sharing disabled."
+fi
+
+if [ -x "${FEATURE_DIR}/warmup.sh" ]; then
+  "${FEATURE_DIR}/warmup.sh" || true
+fi
