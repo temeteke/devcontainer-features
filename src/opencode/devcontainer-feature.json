@@ -1,6 +1,6 @@
 {
   "id": "opencode",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "name": "OpenCode",
   "description": "Installs OpenCode 2 CLI, VS Code extension, and persists its config, data, and shared agent directories.",
   "options": {
@@ -25,6 +25,9 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     }
+  },
+  "containerEnv": {
+    "OPENCODE_CONFIG_DIR": "/mnt/devcontainer-features/opencode/config"
   },
   "mounts": [
     {
