@@ -16,6 +16,11 @@ log() {
   echo "[${FEATURE_ID}] $*"
 }
 
+if [ -z "${HOME:-}" ]; then
+  log "Warning: HOME is not set. Skipping persistence setup."
+  exit 0
+fi
+
 is_true() {
   case "${1:-}" in
     true|True|TRUE|1|yes|YES|y|Y) return 0 ;;

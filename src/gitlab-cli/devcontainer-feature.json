@@ -1,8 +1,8 @@
 {
   "id": "gitlab-cli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "name": "GitLab CLI",
-  "description": "Installs the GitLab CLI (`glab`) and persists its configuration directory.",
+  "description": "Installs the GitLab CLI (`glab`), persists its configuration directory, and configures GitLab CLI as a Git credential helper via the shared `git-config` Feature.",
   "options": {
     "install": {
       "type": "boolean",
@@ -27,5 +27,8 @@
       "target": "/mnt/devcontainer-features/gitlab-cli/config"
     }
   ],
+  "dependsOn": {
+    "ghcr.io/temeteke/devcontainer-features/git-config:0": {}
+  },
   "postCreateCommand": "/usr/local/share/devcontainer-features/gitlab-cli/setup-persistence.sh"
 }
