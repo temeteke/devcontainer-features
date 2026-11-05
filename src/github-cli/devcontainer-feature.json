@@ -1,0 +1,26 @@
+{
+  "id": "github-cli",
+  "version": "0.1.0",
+  "name": "GitHub CLI (Persistence)",
+  "description": "Installs the official GitHub CLI Feature and persists gh authentication by linking ~/.config/gh to the host home directory.",
+  "documentationURL": "https://github.com/temeteke/devcontainer-features/tree/main/src/github-cli",
+  "options": {
+    "persist": {
+      "type": "boolean",
+      "default": true,
+      "description": "Persist GitHub CLI authentication by linking ~/.config/gh to the host home directory."
+    }
+  },
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/temeteke/devcontainer-features/git-config:0": {}
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.config/gh",
+      "target": "/mnt/devcontainer-features/github-cli/gh"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/github-cli/setup-persistence.sh"
+}
