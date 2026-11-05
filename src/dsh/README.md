@@ -38,7 +38,7 @@ dsh web --no-open
 With the disposable `dcs` wrapper:
 
 ```sh
-dcs dsh --help
+dcs dsh dsh --help
 dcs dsh dsh --profile headless "Summarize this repository"
 ```
 
