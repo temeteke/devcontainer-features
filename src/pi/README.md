@@ -25,12 +25,17 @@ upstream-recommended `npm install -g --ignore-scripts` form.
 
 ## Usage
 
-Use `pi` inside a Dev Container. With the `dcs` sandbox wrapper:
+Add this Feature to your `devcontainer.json`:
 
-```sh
-dcs pi
-dcs pi,python
+```json
+{
+  "features": {
+    "ghcr.io/temeteke/devcontainer-features/pi:0": {}
+  }
+}
 ```
+
+Then open the Dev Container and run `pi` in its terminal.
 
 First configure your preferred provider with `/login` or supply an API key
 through your chosen environment configuration. Host credentials in
