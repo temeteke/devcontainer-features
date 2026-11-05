@@ -1,6 +1,6 @@
 {
   "id": "agents",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "name": "Shared Agents State",
   "description": "Persists ~/.agents as shared state for agent tools and skills.",
   "options": {

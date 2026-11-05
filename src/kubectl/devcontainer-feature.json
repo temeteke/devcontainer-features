@@ -1,0 +1,31 @@
+{
+  "id": "kubectl",
+  "version": "0.1.0",
+  "name": "kubectl",
+  "description": "Installs kubectl and mounts the host ~/.kube directory.",
+  "options": {
+    "install": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install kubectl."
+    },
+    "persist": {
+      "type": "boolean",
+      "default": true,
+      "description": "Create a symlink from ~/.kube to the mounted host directory. The bind mount itself is always applied."
+    },
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "kubectl version to install (e.g., 1.37.2). Use 'latest' for the current stable release."
+    }
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.kube",
+      "target": "/mnt/devcontainer-features/kubectl/kube"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/kubectl/setup-persistence.sh"
+}

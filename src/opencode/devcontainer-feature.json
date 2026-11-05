@@ -1,6 +1,6 @@
 {
   "id": "opencode",
-  "version": "0.1.3",
+  "version": "0.4.0",
   "name": "OpenCode",
   "description": "Installs OpenCode 2 CLI, VS Code extension, and persists its config, data, and shared agent directories.",
   "options": {
@@ -14,6 +14,16 @@
       "default": true,
       "description": "Persist configuration/auth/state by linking the tool's expected directory to the host home directory."
     },
+    "cache": {
+      "type": "boolean",
+      "default": true,
+      "description": "Share the OpenCode plugin cache (npm) through a Docker volume to speed up startup across containers."
+    },
+    "warmup": {
+      "type": "boolean",
+      "default": true,
+      "description": "Wait for the OpenCode service and plugins to become ready during postCreate/postStart."
+    },
     "version": {
       "type": "string",
       "default": "latest",
@@ -26,6 +36,9 @@
       "version": "lts"
     }
   },
+  "containerEnv": {
+    "OPENCODE_CONFIG_DIR": "/mnt/devcontainer-features/opencode/config"
+  },
   "mounts": [
     {
       "type": "bind",
@@ -36,9 +49,15 @@
       "type": "bind",
       "source": "${localEnv:HOME}/.local/share/opencode",
       "target": "/mnt/devcontainer-features/opencode/data"
+    },
+    {
+      "type": "volume",
+      "source": "devcontainer-opencode-npm-cache",
+      "target": "/mnt/devcontainer-features/opencode/cache"
     }
   ],
   "postCreateCommand": "/usr/local/share/devcontainer-features/opencode/setup-persistence.sh",
+  "postStartCommand": "/usr/local/share/devcontainer-features/opencode/warmup.sh",
   "customizations": {
     "vscode": {
       "extensions": ["sst-dev.opencode"]

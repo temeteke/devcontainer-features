@@ -1,0 +1,21 @@
+{
+  "id": "git-config",
+  "version": "0.1.0",
+  "name": "Git Config (Host Inheritance)",
+  "description": "Inherits the host ~/.gitconfig with host-specific settings filtered out, and configures GitHub CLI and GitLab CLI as Git credential helpers. Container-specific git config takes precedence.",
+  "documentationURL": "https://github.com/temeteke/devcontainer-features/tree/main/src/git-config",
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "os-provided",
+      "ppa": false
+    }
+  },
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}/.gitconfig",
+      "target": "/mnt/devcontainer-features/git-config/gitconfig"
+    }
+  ],
+  "postCreateCommand": "/usr/local/share/devcontainer-features/git-config/setup.sh"
+}
